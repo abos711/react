@@ -9,8 +9,12 @@ import SignUp from './components/SignUp/SignUp'
 import SignIn from './components/SignIn/SignIn'
 import SignOut from './components/SignOut/SignOut'
 import ChangePassword from './components/ChangePassword/ChangePassword'
-
+// Activity Imports
 import ActivityCreate from './components/Activity/ActivityCreate'
+import ActivityIndex from './components/Activity/ActivityIndex'
+import ActivityShow from './components/Activity/ActivityShow'
+import ActivityUpdate from './components/Activity/ActivityUpdate'
+import ActivityDelete from './components/Activity/ActivityDelete'
 // import + authenticated route below
 
 class App extends Component {
@@ -68,8 +72,18 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute user={user} path='/activity-create' render={() => (
+          {/* Activities */}
+          <AuthenticatedRoute user={user} path='/activities-create' render={() => (
             <ActivityCreate msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/activities' render={() => (
+            <ActivityIndex msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/activities/:activityId' render={() => (
+            <ActivityShow msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/activities-delete/:activityId' render={() => (
+            <ActivityDelete msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>
