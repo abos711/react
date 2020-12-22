@@ -32,37 +32,38 @@ const ActivityCreate = ({ msgAlert, user }) => {
       return updatedActivity
     })
   }
-
+  // Need to fully change this to button format
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        placeholder="Name"
-        name="name"
-        value={activity.name}
-        onChange={handleChange}
-      />
-      <input
-        placeholder="Nap, Diaper Change, Bottle"
-        name="activity"
-        value={activity.activity}
-        onChange={handleChange}
-      />
-      <input
-        placeholder="Description"
-        name="description"
-        value={activity.description}
-        onChange={handleChange}
-      />
-      <input
-        placeholder="(optional) Add Note"
-        name="note"
-        value={activity.note}
-        onChange={handleChange}
-        as="textarea"
-        rows="3"
-      />
-      <button type="submit">Create Activity</button>
-    </form>
+    <div>
+      <h3>Create an Activity Log</h3>
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="Name"
+          name="name"
+          value={activity.name}
+          onChange={handleChange}
+        />
+        <input
+          placeholder="Nap, Diaper Change, Bottle"
+          name="activity"
+          value={activity.activity}
+          onChange={handleChange}
+        />
+        <input
+          placeholder="Description"
+          name="description"
+          value={activity.description}
+          onChange={handleChange}
+        />
+        <input
+          placeholder="(optional) Add Note"
+          name="note"
+          value={activity.note}
+          onChange={handleChange}
+        />
+        <button varient="primary" type="submit">Create Activity</button>
+      </form>
+    </div>
   )
 }
 
