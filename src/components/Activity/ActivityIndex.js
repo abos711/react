@@ -1,45 +1,52 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Row } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { indexActivities } from '../../api/activity'
-import Product from '../Product/Product'
+import axios from 'axios'
 
-const Products = ({ user, msgAlert, addProduct }) => {
-  const [ products, setProducts ] = useState(null)
+import apiUrl from '../../apiConfig'
+import Layout from '../shared/Layout'
+// import indexActivities from '../api/activity'
+// import ActivityUi from './ActivityUi'
 
+const Activities = props => {
+  const [activities, setActivities] = useState([])
+
+  // need to link to Activity file here
   useEffect(() => {
-    indexActivities(user.token)
-      .then(res => {
-        setProducts(res.data.products)
-      })
-      .catch(err => {
-        msgAlert({
-          heading: 'Could not get products',
-          message: 'Error: ' + err.message,
-          variant: 'danger'
-        })
-      })
+    axios(`${apiUrl}/activities`)
+      .then(res => setActivities(res.data.activities))
+      .catch(console.error)
   }, [])
 
+  const activitiesJsx = activities.map(activity => (
+    <li key={activity._id}>
+      <Link to={`/activities/${activity._id}`}>{activity.activity}</Link>
+    </li>
+  ))
+
   return (
-    <Row className="justify-content-center">
-      <h2 className="col-12 text-center">Our Products</h2>
-      {products && products.map(product => (
-        <Product
-          key={product._id}
-          class="col-6"
-          name={product.name}
-          description={product.description}
-          price={product.price}
-          imgSrc={product.imgSrc}
-          imgAlt={product.imgAlt}
-          clicked={() => addProduct(product)}
-        >
-          <Link to={`/products/${product._id}`}><Button variant="outline-primary">See Details</Button></Link>
-        </Product>
-      ))}
-    </Row>
+    <Layout>
+      <h4>Activities</h4>
+      <ul>
+        {activitiesJsx}
+      </ul>
+    </Layout>
   )
 }
 
-export default Products
+export default Activities
+
+// <Row className="justify-content-center">
+//     <h2 className="col-12 text-center">ActivityLog</h2>
+//     {activities && activities.map(activity => (
+//       <ActivityUi
+//         key={activity._id}
+//         class="col-6"
+//         activity={activity.activity}
+//         description={activity.description}
+//         note={activity.note}
+//         created_at={activity.created_at}
+//       >
+//         <Link to={`/activities/${activities._id}`}><Button variant="outline-primary">See Details</Button></Link>
+//       </ActivityUi>
+//     ))}
+//   </Row>
