@@ -85,4 +85,3 @@ const ActivityShow = (props) => {
 }
 
 export default withRouter(ActivityShow)
-
