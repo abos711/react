@@ -1,6 +1,6 @@
 let apiUrl
 const apiUrls = {
-  production: 'https://django-auth-capstone.herokuapp.com/',
+  production: 'https://django-auth-capstone.herokuapp.com',
   development: 'http://localhost:8000'
 }
 
