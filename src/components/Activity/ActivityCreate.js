@@ -1,68 +1,77 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
+
+import ActivityForm from '../shared/ActivityForm'
+// import axios from 'axios'
+//
+// import apiUrl from '../../apiConfig'
+
 import { createActivity } from '../../api/activity'
 
-const ActivityCreate = ({ msgAlert, user }) => {
-  const [ activity, setActivity ] = useState({
-    name: '',
-    activity: '',
-    description: '',
-    note: ''
-  })
+const ActivityCreate = props => {
+  const [activity, setActivity] = useState({ name: '', activity: '', description: '', note: '', created_at: '' })
+  const [createdActivityId, setCreatedActivityId] = useState(null)
+
+  const { user, match } = props
+  // console.log(createdActivityId)
+  const handleChange = event => {
+    event.persist()
+    setActivity(prevActivity => {
+      const updatedField = { [event.target.name]: event.target.value }
+      const editedActivity = Object.assign({}, prevActivity, updatedField)
+
+      return editedActivity
+    })
+  }
 
   const handleSubmit = event => {
     event.preventDefault()
-    createActivity(activity, user.token)
-      .then(msgAlert({
-        heading: 'Activity Created',
-        message: 'You have successfully created a new log',
+    const { msgAlert } = props
+    // event to api here. Doesn't seem to be connecting
+    // axios({
+    //   url: `${apiUrl}/activities`,
+    //   method: 'POST',
+    //   data: { activity }
+    // })
+    //   .then(res => setCreatedActivityId(res.data.book._id))
+    //   .catch(console.error)
+    createActivity(user, activity)
+      // .then(res => { console.log('This is res', res) })
+      .then(res => {
+        setCreatedActivityId(res.data.activity.id)
+      })
+      .then(() => msgAlert({
+        heading: 'Create Success',
+        message: 'Activity created successfully',
         variant: 'success'
       }))
-      .catch(err => {
-        msgAlert({
-          heading: 'Activity Create Failure',
-          message: `Error: ${err.message}`,
-          variant: 'danger'
-        })
-      })
+      .catch(() => msgAlert({
+        heading: 'Create Fail',
+        message: 'Failed to create',
+        variant: 'danger'
+      }))
   }
-  const handleChange = (event) => {
-    const updatedField = { [event.target.name]: event.target.value }
-    setActivity(prevActivity => {
-      const updatedActivity = { ...prevActivity, ...updatedField }
-      return updatedActivity
-    })
+
+  if (createdActivityId) {
+    return <Redirect to={`/activities/${createdActivityId}`} />
   }
-  // Need to fully change this to button format
+  // Alter tomorrow for style day
+  // Do i need to install a form field to have this work?
   return (
-    <div>
-      <h3>Create an Activity Log</h3>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Name"
-          name="name"
-          value={activity.name}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="Nap, Diaper Change, Bottle"
-          name="activity"
-          value={activity.activity}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="Description"
-          name="description"
-          value={activity.description}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="(optional) Add Note"
-          name="note"
-          value={activity.note}
-          onChange={handleChange}
-        />
-        <button varient="primary" type="submit">Create Activity</button>
-      </form>
+    <div className="row">
+      <div className="col-12 text-center">
+        <div className='darkForm'>
+          <h1>Add an Activity</h1>
+          <ActivityForm
+            name={name}
+            activity={activity}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            match={match}
+            user={user}
+          />
+        </div>
+      </div>
     </div>
   )
 }
