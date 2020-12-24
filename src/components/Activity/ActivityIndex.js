@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 // import apiUrl from '../../apiConfig'
 // import Layout from '../shared/Layout'
 import { indexActivities } from '../../api/activity'
+
 import ActivityUi from './ActivityUi'
 
 const Activities = props => {
@@ -59,6 +60,7 @@ const Activities = props => {
   }
 
   return (
+
     <Fragment>
       <div className='row'>
         <div className="col-6 text-center">
@@ -67,6 +69,7 @@ const Activities = props => {
         </div>
       </div>
     </Fragment>
+
   )
 }
 
@@ -87,3 +90,4 @@ export default Activities
 //       </ActivityUi>
 //     ))}
 //   </Row>
+

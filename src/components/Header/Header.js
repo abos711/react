@@ -5,8 +5,6 @@ import Navbar from 'react-bootstrap/Navbar'
 const authenticatedOptions = (
   <Fragment>
     <Nav.Link href="#activities">ActivityLog</Nav.Link>
-    <Nav.Link href="#activities/:id">Show (Temp)</Nav.Link>
-    <Nav.Link href="#activities-update/:id">Update (Temp)</Nav.Link>
     <Nav.Link href="#create-activity">CreateLog</Nav.Link>
     <Nav.Link href="#change-password">Change Password</Nav.Link>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
@@ -30,6 +28,7 @@ const Header = ({ user }) => (
   <Navbar bg="dark" variant="secondary" expand="md">
     <Navbar.Brand href="#">
       ActiveEmmy
+
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
