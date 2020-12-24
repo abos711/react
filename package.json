@@ -1,6 +1,6 @@
 {
-  "name": "react-auth-template",
-  "homepage": "react-auth-capstone",
+  "name": "react-auth-capstone",
+  "homepage": "https://github.com/abos711/react-auth-capstone",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
