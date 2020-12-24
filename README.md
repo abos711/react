@@ -1,4 +1,18 @@
 
+Links: 
+
+API REPO:
+https://github.com/abos711/capstone-project	
+
+API DEPLOYED:
+https://django-auth-capstone.herokuapp.com/	
+
+CLIENT REPO:
+https://github.com/abos711/react-auth-capstone	
+
+CLIENT DEPLOYED:
+https://abos711.github.io/react-auth-capstone/
+
 
 Idea:
 
