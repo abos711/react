@@ -1,69 +1,87 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect } from 'react-router-dom'
-import axios from 'axios'
+import { withRouter, Redirect } from 'react-router-dom'
+// import axios from 'axios'
+//
+// import apiUrl from '../../apiConfig'
+import { showActivity, deleteActivity } from '../../api/activity'
+import { Card, Button } from 'react-bootstrap'
+// import Layout from '../shared/Layout'
 
-import apiUrl from '../../apiConfig'
-import Layout from '../shared/Layout'
-
-const Activity = (props) => {
+const ActivityShow = (props) => {
   const [activity, setActivity] = useState(null)
-  const [deleted, setDeleted] = useState(false)
+  const [update, setUpdate] = useState(false)
+  const { user, msgAlert, match } = props
+  const [setDeleted] = useState(false)
+
+  // console.log('kjsndkjfnsdkf', match.params)
 
   useEffect(() => {
-    axios(`${apiUrl}/activities/${props.match.params.id}`)
-      .then(res => setActivity(res.data.activity))
-      .catch(console.error)
+    showActivity(user, match.params.id)
+      .then(res => {
+        setActivity(res.data.activity)
+      })
+      .then(() => {
+        msgAlert({
+          heading: 'Show Activity Success',
+          message: 'See Activity',
+          variant: 'success'
+        })
+      })
+      .catch(err => {
+        msgAlert({
+          heading: 'Activity show fail',
+          message: 'Error code: ' + err.message,
+          variant: 'danger'
+        })
+      })
   }, [])
 
   const destroy = () => {
-    axios({
-      url: `${apiUrl}/activities/${props.match.params.id}`,
-      method: 'DELETE'
-    })
+    deleteActivity(user, match.params.id)
       .then(() => setDeleted(true))
-      .catch(console.error)
+      .then(() => {
+        msgAlert({
+          heading: 'Activity Deleted Success',
+          message: 'Activity Deleted',
+          variant: 'success'
+        })
+      })
+      .catch(() => msgAlert({
+        heading: 'Create Fail',
+        message: 'Failed to create',
+        variant: 'danger'
+      }))
   }
 
-  if (!activity) {
-    return <p>Loading...</p>
+  const handleUpdate = () => {
+    setUpdate(true)
   }
 
-  if (deleted) {
-    return (
-      <Redirect to={{
-        pathname: '/', state: { msg: 'Activity succesfully deleted!' }
-      }} />
-    )
+  if (update) {
+    return <Redirect to={'/activity-update/' + activity.id} />
   }
 
+  if (activity === null) {
+    return (<div><p>Loading...</p></div>)
+  }
   return (
-    <Layout>
-      <h4>{activity.activity}</h4>
-
-      <button onClick={destroy}>Delete Activity</button>
-      <Link to={`/activities/${props.match.params.id}/edit`}>
-        <button>Edit</button>
-      </Link>
-      <Link to='/activities'>ActivityLog</Link>
-    </Layout>
+    <div className="row">
+      <div className='col-sm-10 col-md-8 mx-auto mt-5'>
+        <h1>Activity</h1>
+        <Card>
+          <Card.Body>
+            <Card.Text>{activity.name}</Card.Text>
+            <Card.Text>{activity.activity}</Card.Text>
+            <Card.Text>{activity.description}</Card.Text>
+            <Card.Text>{activity.note}</Card.Text>
+            <Card.Text>{activity.created_at}</Card.Text>
+            <Button className="form-submit-button update" onClick={handleUpdate}>Update</Button>
+            <Button className="form-submit-button delete" onClick={destroy}>Delete</Button>
+          </Card.Body>
+        </Card>
+      </div>
+    </div>
   )
 }
 
-export default Activity
-
-// <Row className="justify-content-center">
-//     <h2 className="col-12 text-center">ActivityDetail</h2>
-//     {activity => (
-//       <ActivityUi
-//         key={activity._id}
-//         class="col-12"
-//         activity={activity.activity}
-//         description={activity.description}
-//         note={activity.note}
-//         created_at={activity.created_at}
-//       >
-//         <Link to={`/activities/${activities._id}`}><Button variant="outline-secondary">Update Activity</Button></Link>
-//         <Link to={`/activities/${activities._id}`}><Button varient="outline-secondary">Delete Activity</Button></Link>
-//         </ActivityUi>
-//     ))}
-//   </Row>
+export default withRouter(ActivityShow)

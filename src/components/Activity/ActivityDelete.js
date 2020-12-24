@@ -12,7 +12,7 @@
 //
 //   useEffect(() => {
 //     // need activity ID/user to delete
-//     showActivity(user, activityId)
+//     showActivity(user, match.params.id)
 //       .then(response => setActivity(response.data.review))
 //       .catch(err => {
 //         msgAlert({

@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
-import axios from 'axios'
-
-import apiUrl from '../../apiConfig'
+// import axios from 'axios'
+// import apiUrl from '../../apiConfig'
+import { updateActivity } from '../../api/activity'
 import ActivityForm from '../shared/ActivityForm'
-import Layout from '../shared/Layout'
+// import Layout from '../shared/Layout'
 
 const ActivityUpdate = (props) => {
   const [activity, setActivity] = useState({ name: '', activity: '', description: '', note: '', updated_at: '' })
   const [updated, setUpdated] = useState(false)
-
-  useEffect(() => {
-    axios(`${apiUrl}/activities/${props.match.params.id}`)
-      .then(res => setActivity(res.data.activity))
-      .catch(console.error)
-  }, [])
+  const { user, msgAlert, match } = props
 
   // Create a handleChange function that will be run anytime an input is changed
   // ex. anytime someone types in the input
@@ -45,16 +40,38 @@ const ActivityUpdate = (props) => {
     })
   }
 
-  const handleSubmit = event => {
-    event.preventDefault()
+  useEffect(() => {
+    updateActivity(user, activity, match.params.id)
+      .then(res => { console.log('sjdsjdjsdj', res) })
+      .then(res => {
+        setActivity(res.data.activities)
+      })
+      .then(() => msgAlert({
+        heading: 'Activity Pull Success',
+        message: 'Activity index successfully',
+        variant: 'success'
+      }))
+      .catch(() => msgAlert({
+        heading: 'Index Fail',
+        message: 'Failed to pull activities',
+        variant: 'danger'
+      }))
+  }, [])
 
-    axios({
-      url: `${apiUrl}/activities/${props.match.params.id}`,
-      method: 'PATCH',
-      data: { activity }
-    })
-      .then(() => setUpdated(true))
-      .catch(console.error)
+  // const handleSubmit = event => {
+  //   event.preventDefault()
+  //
+  // //   axios({
+  // //     url: `${apiUrl}/activities/${props.match.params.id}`,
+  // //     method: 'PATCH',
+  // //     data: { activity }
+  // //   })
+  // //     .then(() => setUpdated(true))
+  // //     .catch(console.error)
+  // // }
+
+  const handleUpdate = () => {
+    setUpdated(true)
   }
 
   if (updated) {
@@ -62,14 +79,21 @@ const ActivityUpdate = (props) => {
   }
 
   return (
-    <Layout>
-      <ActivityForm
-        activity={activity}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        cancelPath={`/activities/${props.match.params.id}`}
-      />
-    </Layout>
+    <div className="row">
+      <div className="col-12 text-center">
+        <div className='darkForm'>
+          <h1>Update Activity</h1>
+          <ActivityForm
+            name={name}
+            activity={activity}
+            handleChange={handleChange}
+            handleUpdate={handleUpdate}
+            match={match}
+            user={user}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 

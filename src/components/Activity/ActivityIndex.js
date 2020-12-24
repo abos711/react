@@ -1,35 +1,72 @@
-import React, { useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-
-import apiUrl from '../../apiConfig'
-import Layout from '../shared/Layout'
-// import indexActivities from '../api/activity'
-// import ActivityUi from './ActivityUi'
+// import { Button } from 'react-bootstrap'
+// import axios from 'axios'
+//
+// import apiUrl from '../../apiConfig'
+// import Layout from '../shared/Layout'
+import { indexActivities } from '../../api/activity'
+import ActivityUi from './ActivityUi'
 
 const Activities = props => {
-  const [activities, setActivities] = useState([])
+  const [activities, setActivities] = useState(null)
+  const { user, msgAlert } = props
 
   // need to link to Activity file here
+  // useEffect(() => {
+  //   axios(`${apiUrl}/activities`)
+  //     .then(res => setActivities(res.data.activities))
+  //     .catch(console.error)
+  // }, [])
   useEffect(() => {
-    axios(`${apiUrl}/activities`)
-      .then(res => setActivities(res.data.activities))
-      .catch(console.error)
+    indexActivities(user)
+      // .then(res => { console.log('sjdsjdjsdj', res) })
+      .then(res => {
+        setActivities(res.data.activities)
+      })
+      .then(() => msgAlert({
+        heading: 'Activity Pull Success',
+        message: 'Activity index successfully',
+        variant: 'success'
+      }))
+      .catch(() => msgAlert({
+        heading: 'Index Fail',
+        message: 'Failed to pull activities',
+        variant: 'danger'
+      }))
   }, [])
 
-  const activitiesJsx = activities.map(activity => (
-    <li key={activity._id}>
-      <Link to={`/activities/${activity._id}`}>{activity.activity}</Link>
-    </li>
-  ))
+  let index
+  if (!activities) {
+    index = <h3> Activities Loading... </h3>
+  } else if (activities.length === 0) {
+    index =
+      <div>
+        <h3> No Activities Created. See Link </h3>
+        <Link to="/create-activity"></Link>
+      </div>
+  } else {
+    index = activities.map(activity => (
+      <ActivityUi
+        key={activity.id}
+        class="col-6"
+        activity={activity.activity}
+        description={activity.description}
+        note={activity.note}
+        created_at={activity.created_at}
+      />
+    ))
+  }
 
   return (
-    <Layout>
-      <h4>Activities</h4>
-      <ul>
-        {activitiesJsx}
-      </ul>
-    </Layout>
+    <Fragment>
+      <div className='row'>
+        <div className="col-6 text-center">
+          <h2>Emmys Activities</h2>
+          {index}
+        </div>
+      </div>
+    </Fragment>
   )
 }
 

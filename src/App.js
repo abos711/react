@@ -76,17 +76,17 @@ class App extends Component {
           <AuthenticatedRoute user={user} exact path='/create-activity' render={(props) => (
             <ActivityCreate msgAlert={this.msgAlert} user={user} match={ props.match }/>
           )} />
-          <AuthenticatedRoute user={user} exact path='/activities' render={() => (
-            <ActivityIndex msgAlert={this.msgAlert} user={user} addActivity={this.addActivity}/>
+          <AuthenticatedRoute user={user} exact path='/activities' render={(props) => (
+            <ActivityIndex msgAlert={this.msgAlert} user={user} match={props.match}/>
           )} />
           <AuthenticatedRoute user={user} exact path='/activities/:id' render={(props) => (
-            <ActivityShow msgAlert={this.msgAlert} user={user} addActivity={this.addActivity} match={props.match}/>
+            <ActivityShow msgAlert={this.msgAlert} user={user} match={props.match}/>
           )} />
-          <AuthenticatedRoute user={user} exact path='/activities-update/:id' render={(props) => (
+          <AuthenticatedRoute user={user} exact path='/activity-update/:id' render={(props) => (
             <ActivityUpdate msgAlert={this.msgAlert} user={user} match={props.match} location={props.location}/>
           )} />
           <AuthenticatedRoute user={user} exact path='/activities-delete/:id' render={() => (
-            <ActivityDelete msgAlert={this.msgAlert} user={user} />
+            <ActivityDelete msgAlert={this.msgAlert} user={user}/>
           )} />
         </main>
       </Fragment>
