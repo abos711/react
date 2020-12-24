@@ -6,7 +6,7 @@ ActiveEmmy: A shared app that easily tallies the daily activities of your kids. 
 
 
 WireFrame:
-
+https://miro.com/app/board/o9J_laxfSIs=/
 
 ERD:
 https://drive.google.com/file/d/1r26y9EH39SRouskt5cU5S7nanTHK2hcW/view?usp=sharing
@@ -27,4 +27,7 @@ As a signed in user, I would like to access my activityLog to know the details o
 As a signed in user, I would like to access an activity and be able to edit or delete and activity.
 
 List of Technologies Used:
-JavaScript, Python, Django, React, Heroku, 
+JavaScript, Python, Django, React, Heroku, GitHub
+
+Unsolved Problems:
+Styling, Updated/Delete CRUD, Deployment 
