@@ -38,6 +38,9 @@ export const showActivity = (user, activityId) => {
 }
 
 export const updateActivity = (user, activity, activityId) => {
+  console.log('this is user', user)
+  console.log('this is activity', activity)
+  console.log('this is id', activityId)
   return axios({
     method: 'PATCH',
     url: apiUrl + '/activities/' + activityId,

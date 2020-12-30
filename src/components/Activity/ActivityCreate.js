@@ -9,7 +9,13 @@ import ActivityForm from '../shared/ActivityForm'
 import { createActivity } from '../../api/activity'
 
 const ActivityCreate = props => {
-  const [activity, setActivity] = useState({ name: '', activity: '', description: '', note: '', created_at: '' })
+  const [activity, setActivity] = useState({
+    name: '',
+    activity: '',
+    description: '',
+    note: '',
+    created_at: ''
+  })
   const [createdActivityId, setCreatedActivityId] = useState(null)
 
   const { user, match } = props
@@ -63,11 +69,10 @@ const ActivityCreate = props => {
         <div className='darkForm'>
           <h1>Add an Activity</h1>
           <ActivityForm
-            name={name}
             activity={activity}
+            match={match}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            match={match}
             user={user}
           />
         </div>

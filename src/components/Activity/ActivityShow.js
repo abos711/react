@@ -11,7 +11,7 @@ const ActivityShow = (props) => {
   const [activity, setActivity] = useState(null)
   const [update, setUpdate] = useState(false)
   const { user, msgAlert, match } = props
-  const [setDeleted] = useState(false)
+  const [deleted, setDeleted] = useState(false)
 
   // console.log('kjsndkjfnsdkf', match.params)
 
@@ -39,18 +39,11 @@ const ActivityShow = (props) => {
   const destroy = () => {
     deleteActivity(user, match.params.id)
       .then(() => setDeleted(true))
-      .then(() => {
-        msgAlert({
-          heading: 'Activity Deleted Success',
-          message: 'Activity Deleted',
-          variant: 'success'
-        })
-      })
-      .catch(() => msgAlert({
-        heading: 'Create Fail',
-        message: 'Failed to create',
-        variant: 'danger'
-      }))
+      .catch(console.error)
+  }
+
+  if (activity === null) {
+    return (<div><p>Activity Loading...</p></div>)
   }
 
   const handleUpdate = () => {
@@ -61,9 +54,15 @@ const ActivityShow = (props) => {
     return <Redirect to={'/activity-update/' + activity.id} />
   }
 
-  if (activity === null) {
-    return (<div><p>Loading...</p></div>)
+  if (deleted) {
+    return (
+      <Redirect to={{
+        pathname: '/activities/',
+        state: { msg: 'Activity Deleted' }
+      }} />
+    )
   }
+
   return (
     <div className="row">
       <div className='col-sm-10 col-md-8 mx-auto mt-5'>
@@ -75,8 +74,9 @@ const ActivityShow = (props) => {
             <Card.Text>{activity.description}</Card.Text>
             <Card.Text>{activity.note}</Card.Text>
             <Card.Text>{activity.created_at}</Card.Text>
-            <Button className="form-submit-button update" onClick={handleUpdate}>Update</Button>
-            <Button className="form-submit-button delete" onClick={destroy}>Delete</Button>
+            <Card.Text>{activity.updated_at}</Card.Text>
+            <Button variant="primary" onClick={handleUpdate}>Update</Button>
+            <Button variant="primary" onClick={destroy}>Delete</Button>
           </Card.Body>
         </Card>
       </div>
