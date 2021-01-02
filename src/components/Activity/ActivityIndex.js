@@ -53,7 +53,6 @@ const Activities = props => {
             <Card.Text>{activity.name}</Card.Text>
             <Card.Text>{activity.activity}</Card.Text>
             <Card.Text>{activity.created_at}</Card.Text>
-            <Card.Text>{activity.updated_at}</Card.Text>
           </Card.Body>
           <Link to={`/activities/${activity.id}`}>
             <Button variant="primary">Show</Button>

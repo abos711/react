@@ -7,12 +7,19 @@ import ActivityForm from '../shared/ActivityForm'
 // import Layout from '../shared/Layout'
 
 const ActivityUpdate = (props) => {
-  const [activity, setActivity] = useState({ name: '', activity: '', description: '', note: '', created_at: '' })
+  const [activity, setActivity] = useState({
+    name: '',
+    activity: '',
+    description: '',
+    note: '',
+    created_at: ''
+  })
   const [updated, setUpdated] = useState(false)
   const { user, msgAlert, match } = props
 
   useEffect(() => {
     showActivity(user, match.params.id)
+      // .then(res => { console.log('This is res', res) })
       .then(res => setActivity(res.data.activity))
       .then(() => msgAlert({
         heading: 'Show Activity Success',
@@ -29,7 +36,6 @@ const ActivityUpdate = (props) => {
   // ex. anytime someone types in the input
   const handleChange = event => {
     event.persist()
-
     setActivity(prevActivity => {
       const updatedField = { [event.target.name]: event.target.value }
       const editedActivity = Object.assign({}, prevActivity, updatedField)
@@ -57,7 +63,8 @@ const ActivityUpdate = (props) => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    updateActivity(user, activity, match.params.id)
+    console.log(activity)
+    updateActivity(user, activity)
       .then(() => setUpdated(true))
       .then(() => msgAlert({
         heading: 'Activity Updated',
@@ -72,7 +79,7 @@ const ActivityUpdate = (props) => {
   }
 
   if (updated) {
-    return <Redirect to={`/activities/${activity.id}`} />
+    return <Redirect to={'/activities/'} />
   }
 
   return (
@@ -82,9 +89,9 @@ const ActivityUpdate = (props) => {
           <h1>Update Activity</h1>
           <ActivityForm
             activity={activity}
+            match={match}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            match={match}
             user={user}
           />
         </div>

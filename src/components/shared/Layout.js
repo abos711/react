@@ -12,7 +12,6 @@ const Layout = props => (
           <Card.Text>{props.description}</Card.Text>
           <Card.Text>{props.note}</Card.Text>
           <Card.Text>{props.created_at}</Card.Text>
-          <Card.Text>{props.updated_at}</Card.Text>
         </Card.Body>
       </Card>
     </React.Fragment>

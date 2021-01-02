@@ -74,7 +74,6 @@ const ActivityShow = (props) => {
             <Card.Text>{activity.description}</Card.Text>
             <Card.Text>{activity.note}</Card.Text>
             <Card.Text>{activity.created_at}</Card.Text>
-            <Card.Text>{activity.updated_at}</Card.Text>
             <Button variant="primary" onClick={handleUpdate}>Update</Button>
             <Button variant="primary" onClick={destroy}>Delete</Button>
           </Card.Body>
