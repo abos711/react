@@ -22,12 +22,12 @@ const ActivityUpdate = (props) => {
       // .then(res => { console.log('This is res', res) })
       .then(res => setActivity(res.data.activity))
       .then(() => msgAlert({
-        heading: 'Show Activity Success',
+        heading: 'Ready for update',
         message: 'See Activity',
         variant: 'success'
       }))
       .catch(err => msgAlert({
-        heading: 'Activity show fail',
+        heading: 'Something went wrong',
         message: 'Error code: ' + err.message,
         variant: 'danger'
       }))
@@ -63,7 +63,7 @@ const ActivityUpdate = (props) => {
 
   const handleSubmit = event => {
     event.preventDefault()
-    console.log(activity)
+    // console.log(activity)
     updateActivity(user, activity)
       .then(() => setUpdated(true))
       .then(() => msgAlert({

@@ -39,6 +39,13 @@ const ActivityShow = (props) => {
   const destroy = () => {
     deleteActivity(user, match.params.id)
       .then(() => setDeleted(true))
+      .then(() => {
+        msgAlert({
+          heading: 'Activity Deleted',
+          message: 'Activity Deleted',
+          variant: 'success'
+        })
+      })
       .catch(console.error)
   }
 
